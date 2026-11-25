@@ -1,5 +1,11 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
   - name: Report a security vulnerability
     url: https://github.com/Solarity-AI/.github/blob/main/SECURITY.md
     about: Report security issues privately. Please don't open a public issue.
+  - name: Get help
+    url: https://github.com/Solarity-AI/.github/blob/main/SUPPORT.md
+    about: Where to ask questions, report bugs or reach the team.
+  - name: Press, partnerships and the apps
+    url: https://solarityai.com/
+    about: Visit the website, or email ata.turhan@solarityai.com.

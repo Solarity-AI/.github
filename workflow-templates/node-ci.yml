@@ -1,0 +1,24 @@
+# Calls the shared Node test job in Solarity-AI/ci-platform on the org's self-hosted runners (no paid minutes).
+# Org rules: pull_request with paths and workflow_dispatch only (no push, no schedule). Private repos only: a public
+# repo can't call a private repo's reusable workflow, so public repos use a hosted runner instead.
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths: ["src/**", "tests/**", "package.json", "package-lock.json", ".nvmrc", ".github/workflows/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    uses: Solarity-AI/ci-platform/.github/workflows/node-test.yml@v1
+    with:
+      test-command: npm test

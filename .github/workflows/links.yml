@@ -1,0 +1,57 @@
+# Checks every link in the org profile and the default community files on each pull request that touches them.
+# Org rules: pull_request and workflow_dispatch only (no push, no schedule). Hosted runner on purpose: this repo is
+# public and the org's self-hosted runners do not take public-repo jobs.
+name: Link check
+
+on:
+  pull_request:
+    paths:
+      - "**/*.md"
+      - ".github/workflows/links.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Org policy allows only GitHub-owned and a few listed actions, so the check is a short inline script.
+      - name: Check every link in the Markdown files
+        shell: python
+        run: |
+          import glob, os, re, sys, urllib.request
+          files = glob.glob("*.md") + glob.glob("profile/*.md")
+          bad = []
+          for f in files:
+              text = open(f, encoding="utf-8").read()
+              for url in sorted(set(re.findall(r'\]\(([^)\s]+)\)|src="([^"]+)"', text))):
+                  url = url[0] or url[1]
+                  if url.startswith(("#", "mailto:")):
+                      continue
+                  if url.startswith(("http://", "https://")):
+                      req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 link-check"})
+                      for attempt in range(3):
+                          try:
+                              with urllib.request.urlopen(req, timeout=20) as r:
+                                  code = r.status
+                              break
+                          except Exception as e:
+                              code = getattr(e, "code", str(e))
+                      if code != 200:
+                          bad.append(f"{f}: {url} -> {code}")
+                  elif not os.path.exists(os.path.join(os.path.dirname(f), url.split("#")[0])):
+                      bad.append(f"{f}: {url} -> missing file")
+          print(f"{len(files)} files checked")
+          for b in bad:
+              print("FAIL", b)
+          sys.exit(1 if bad else 0)

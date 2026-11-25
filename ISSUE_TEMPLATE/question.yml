@@ -1,0 +1,21 @@
+name: Question
+description: Ask how something works or how to use it.
+labels: [question]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What you want to know.
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: What you tried
+      description: Steps, commands or settings you already tried, and what happened.
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system and version of the tool, if it matters.

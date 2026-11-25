@@ -1,0 +1,7 @@
+{
+  "name": "Solarity Node CI",
+  "description": "Runs npm test through the shared ci-platform job on pull requests, on the org's self-hosted runners.",
+  "iconName": "octicon checklist",
+  "categories": ["JavaScript", "TypeScript", "Node"],
+  "filePatterns": ["package.json$"]
+}

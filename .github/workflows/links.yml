@@ -1,0 +1,31 @@
+# Checks every link in the org profile and the default community files on each pull request that touches them.
+# Org rules: pull_request and workflow_dispatch only (no push, no schedule). Hosted runner on purpose: this repo is
+# public and the org's self-hosted runners do not take public-repo jobs.
+name: Link check
+
+on:
+  pull_request:
+    paths:
+      - "**/*.md"
+      - ".github/workflows/links.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: --no-progress --max-retries 3 "*.md" "profile/*.md"
+          fail: true

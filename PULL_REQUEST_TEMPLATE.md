@@ -4,9 +4,17 @@
 
 Fixes #
 
-## How it was verified
+<!-- Fixes, Closes or Resolves #<issue>: the issue closes when this merges. -->
 
-<!-- The checks you ran (build, typecheck, lint, tests) and anything you tried by hand. -->
+## How verified
+
+<!-- The command you ran (the repo's verify command from its AGENTS.md, or the 1 test file you touched) and its
+     result: paste the summary line. For a manual check, the steps and what you saw. -->
+
+```
+command:
+result:
+```
 
 ## Notes for the reviewer
 

@@ -21,6 +21,7 @@
 
 - [ai-usage-taskbar-widgets](https://github.com/Solarity-AI/ai-usage-taskbar-widgets): see how much of your weekly Claude and Codex allowance is used, on the Windows taskbar or the macOS menu bar
 - [hw-widget](https://github.com/Solarity-AI/hw-widget): temperature, CPU, memory and GPU at a glance on Windows, GNOME and macOS
+- [ci-widget](https://github.com/Solarity-AI/ci-widget): every running GitHub Actions job on the Windows taskbar, grouped by machine, plus the queue
 - [llm-iq-index](https://github.com/Solarity-AI/llm-iq-index): estimated IQ scores for the top closed and open-weight LLMs ([live site](https://solarity-ai.github.io/llm-iq-index/))
 - [claude-enter-newline](https://github.com/Solarity-AI/claude-enter-newline): Enter adds a new line and Ctrl/⌘+Enter sends, in the Claude desktop app and AI chats in Chrome
 - [public-resources](https://github.com/Solarity-AI/public-resources): brand assets, press kit and one-pagers

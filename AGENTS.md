@@ -1,7 +1,7 @@
 # Rules for AI agents
 
-Verify: none. This repo holds only Markdown, YAML and 1 image; check YAML forms parse
-(`python -c "import yaml,glob;[yaml.safe_load(open(f)) for f in glob.glob('ISSUE_TEMPLATE/*.yml')]"`).
+Verify: `python scripts/verify.py` (offline, needs PyYAML; expect `verify: ok`). It parses the issue forms, starter
+workflows and their `.properties.json`, and checks relative Markdown links. External links are checked only by CI.
 
 The Solarity-AI organisation's default community files. Every repository without its own copy uses them, so a change
 here changes every such repository at once.
@@ -19,6 +19,7 @@ here changes every such repository at once.
 - `workflow-templates/`: org starter workflows offered on every repo's "New workflow" page (`node-ci.yml` calls the
   shared Node test job in `ci-platform` at `@v1`; each template needs a matching `.properties.json`).
 - `.github/workflows/links.yml`: checks the links in every Markdown file on pull requests (hosted runner, public repo).
+- `scripts/verify.py`: the offline check above.
 - `profile/README.md`: the public organisation profile page; it is public, so no private repo names, people or numbers.
 
 ## Rules
